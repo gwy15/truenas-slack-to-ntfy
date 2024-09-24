@@ -2,6 +2,7 @@
 FROM rust:slim-bookworm as builder
 WORKDIR /code
 COPY . .
+RUN rustup target add x86_64-unknown-linux-musl
 RUN cargo b --release --target x86_64-unknown-linux-musl
 
 # 
