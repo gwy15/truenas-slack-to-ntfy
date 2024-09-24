@@ -5,6 +5,23 @@ This program mocks slack webhook for TrueNAS and forwards notifications to a ntf
 ## Usage
 Docker recommended.
 
+```yaml
+services:
+  truenas-slack-to-ntfy:
+    image: gwy15/truenas-slack-to-ntfy:main
+    container_name: truenas-slack-to-ntfy
+    environment:
+      - BIND=0.0.0.0:80
+      - NTFY_BASE_URL=https://ntfy.sh
+      - LISTEN_BASE_PATH=/
+    ports:
+      - 80:80
+    restart: unless-stopped
+```
+
+You can also compile via `cargo build --release --target x86_64-unknown-linux-musl`
+and write a systemd service file manually.
+
 ### Environments
 - `BIND`: listen interface and ports. Defaults to `0.0.0.0:80`
 - `NTFY_BASE_URL`: the ntfy server to forward. Defaults to `https://ntfy.sh`.
