@@ -45,7 +45,7 @@ async fn forward(
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
     tracing_subscriber::fmt::init();
-    let bind = env::var("bind")
+    let bind = env::var("BIND")
         .ok()
         .and_then(|s| s.parse::<std::net::SocketAddr>().ok())
         .unwrap_or_else(|| "0.0.0.0:80".parse().unwrap());
