@@ -19,8 +19,10 @@ async fn forward(
     let topic = path.into_inner().0;
     let content = body.into_inner().text;
     let url = format!("{}/{topic}", config.ntfy_base_url);
+    info!("posting to {url}");
     let response = reqwest::Client::new()
         .post(url)
+        .header("x-markdown", "true")
         .body(content)
         .send()
         .await
@@ -51,8 +53,8 @@ async fn main() -> std::io::Result<()> {
         .unwrap_or_else(|| "0.0.0.0:80".parse().unwrap());
     let ntfy_base_url = env::var("NTFY_BASE_URL").unwrap_or_else(|_| "https://ntfy.sh".to_string());
     let config = Config { ntfy_base_url };
-    let listen_base_path = env::var("LISTEN_BASE_PATH").unwrap_or_else(|_| "/".to_string());
-    let path = format!("{listen_base_path}{{topic}}");
+    let listen_base_path = env::var("LISTEN_BASE_PATH").unwrap_or_else(|_| String::new());
+    let path = format!("{listen_base_path}/{{topic}}");
 
     info!("listening on path {path} and {bind}.");
     info!("will forward requests to {}", config.ntfy_base_url);
