@@ -2,6 +2,8 @@
 
 This program mocks slack webhook for TrueNAS and forwards notifications to a ntfy server.
 
+Access control is not implemented yet.
+
 ## Usage
 Docker recommended.
 
